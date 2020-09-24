@@ -1,0 +1,27 @@
+{
+	"id": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/settings.json",
+	"title": "node-gateway-routerules",
+	"type": "object",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"required": ["rules"],
+	"properties": {
+		"rules": { 
+            "type": "array",
+            "default": [],
+            "items": {
+                "type": "object",
+                "required": ["prefix", "target"],
+                "properties": {
+                    "prefix": {
+                        "type": "string",
+                        "description": "Prefix of the path"
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Target of the proxy redirection"
+                    }
+                }
+            }
+        }
+	}
+}

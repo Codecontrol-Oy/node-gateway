@@ -1,27 +1,22 @@
 var log4js = require("log4js")
 var settings = require("./config/settings.json")
 var routeRules = require("./config/routes.json")
-var validator = require('jsonschema').Validator;
-var settingsSchema = require('./schemas/settings.json')
-var corsSchema = require('./schemas/cors.json')
+var validate = require("./tools/schemaValidator").validate
 var http = require("http"),
   httpProxy = require("http-proxy"),
   HttpProxyRules = require("http-proxy-rules")
 
 this.s = {}
 
-const configure = (externalSettings, externalRoutes) => {
-    var v = new validator()
-    v.addSchema(settingsSchema, 'node-gateway-settings')
-    v.addSchema(corsSchema, 'node-gateway-cors')
-
+const configure = (externalSettings, externalRouteRules) => {
     let s = externalSettings ? externalSettings : settings
+    let r = externalRouteRules ? externalRouteRules : routeRules
     this.s = {
       settings: s,
-      routeRules: routeRules
+      routeRules: r
     }
-    let r = v.validate(s.settings,settingsSchema)
-    console.log(r)
+    let validationResult = validate(this.s)
+    console.log(validationResult)
 }
 exports.configure = configure
 //og4js.configure(this.s.settings.logger.logconfig)
@@ -33,7 +28,7 @@ exports.configure = configure
 this.server = http.createServer(function (req, res) {
 configure()
 console.log(this.s)
-var proxyRules = new HttpProxyRules(this.s.routes)
+var proxyRules = new HttpProxyRules(this.s.routeRules)
 var proxy = httpProxy.createProxy();
 proxy.on("proxyRes", function (proxyRes, req, res) {
   if(this.s.settings.cors) {

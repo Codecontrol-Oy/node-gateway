@@ -1,3 +1,16 @@
 {
-    "test": "test"
+    "rules": [
+        {
+            "prefix": "/users",
+            "target": "https://userApi/users"
+        },
+        {
+            "prefix": "/organization",
+            "target": "https://organizationApi/organization"
+        },
+        {
+            "prefix": "/organization/users",
+            "target": "https://organizationApi/organization/users"
+        }
+    ]
 }
