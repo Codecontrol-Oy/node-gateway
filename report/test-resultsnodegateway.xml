@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="0" tests="2" time="0.06">
+ <testsuite name="node-gateway" timestamp="2020-09-24T17:24:50" hostname="localhost" time="0.031" errors="0" tests="0" skipped="0" disabled="0" failures="0">
+ </testsuite>
+ <testsuite name="node-gateway.Proxy basic tests" timestamp="2020-09-24T17:24:50" hostname="localhost" time="0.029" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="node-gateway.Proxy basic tests" name="Should return 400 on root url" time="0.023" />
+  <testcase classname="node-gateway.Proxy basic tests" name="Should throw 500 on error" time="0.006" />
+ </testsuite>
+</testsuites>
