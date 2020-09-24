@@ -3,6 +3,7 @@ var settings = require("./config/settings.json")
 var routeRules = require("./config/routes.json")
 var validator = require('jsonschema').Validator;
 var settingsSchema = require('./schemas/settings.json')
+var corsSchema = require('./schemas/cors.json')
 var http = require("http"),
   httpProxy = require("http-proxy"),
   HttpProxyRules = require("http-proxy-rules")
@@ -12,6 +13,7 @@ this.s = {}
 const configure = (externalSettings, externalRoutes) => {
     var v = new validator()
     v.addSchema(settingsSchema, 'node-gateway-settings')
+    v.addSchema(corsSchema, 'node-gateway-cors')
 
     let s = externalSettings ? externalSettings : settings
     this.s = {
