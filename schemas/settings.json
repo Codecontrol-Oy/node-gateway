@@ -1,0 +1,12 @@
+{
+	"id": "https://raw.githubusercontent.com/codecontrol-oy/node-gateway/master/schemas/settings.json",
+	"title": "node-gateway-settings",
+	"type": "object",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"required": ["cors", "server", "logger"],
+	"properties": {
+		"cors": {"$ref": "https://raw.githubusercontent.com/codecontrol-oy/node-gateway/master/schemas/cors.json"},
+        "server": {"$ref": "https://raw.githubusercontent.com/codecontrol-oy/node-gateway/master/schemas/server.son"},
+        "logger": {"$ref": "https://raw.githubusercontent.com/apiadaptercodecontrol-oy/node-gateway/master/schemas/logger.json"}
+	}
+}

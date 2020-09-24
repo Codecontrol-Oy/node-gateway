@@ -1,0 +1,14 @@
+{
+    "settings" : {
+        "cors": {
+            "allowedOrigin": "*",
+            "allowCredentials": true,
+            "allowedMethods": "GET, POSTS"
+        },
+        "server": {
+            "port": 6010, 
+            "noRouteMatchesErrorMessage": "No route matches the path",
+            "generalErrorMessage": "node-gateway general error"
+        }
+    }
+}

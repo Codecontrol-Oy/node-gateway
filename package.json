@@ -1,0 +1,40 @@
+{
+  "name": "node-gateway",
+  "version": "1.0.0",
+  "description": "Gateway proxy",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/jasmine.js",
+    "coverageDirectory": "report",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/containers/",
+      "/docs/",
+      "/build/",
+      "/mocks/"
+    ],
+    "testRegex": "\\.test\\.(js|jsx)$"
+  },
+  "author": "Toni Iltanen",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "jasmine-reporters": "^2.3.2",
+    "jest": "^26.4.2",
+    "nock": "^13.0.4",
+    "rimraf": "^3.0.2",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "http": "0.0.1-security",
+    "http-proxy": "^1.18.1",
+    "http-proxy-rules": "^1.1.3",
+    "jsonschema": "^1.2.6",
+    "log4js": "^6.3.0",
+    "node-http-proxy": "^0.2.3"
+  }
+}
