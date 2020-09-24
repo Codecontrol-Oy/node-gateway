@@ -1,6 +1,6 @@
 {
   "name": "@codecontrol/node-gateway",
-  "version": "1.2.91",
+  "version": "1.2.92",
   "description": "A Simple NodeJS based proxy gateway",
   "keywords": [
     "gateway",
