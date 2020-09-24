@@ -2,6 +2,16 @@
 
 A Simple NodeJS based Api Gateway
 
+node-gateway is used to map your api calls through a single proxy. 
+Instead creating different subdomains for your api's, you can gather them to a single endpoint with cors rules on top.
+
+ex.
+```
+proxy.mydomain.com/users => https://userapi/users:2500 (internal api on the server)
+proxy.mydomain.com/projects => https://projectapi/projects:2501 (internal api on the server)
+proxy.mydomain.com/billing => https://commercial.api.com (external api)
+```
+
 ## Installation
 1. clone repository
 2. run npm install
