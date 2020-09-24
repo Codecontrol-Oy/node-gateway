@@ -2,7 +2,7 @@ var log4js = require("log4js")
 var settings = require("./config/settings.json")
 var routeRules = require("./config/routes.json")
 var validator = require('jsonschema').Validator;
-var corsSchema = require('./schemas/corsSchema.json')
+var settingsSchema = require('./schemas/settings.json')
 var http = require("http"),
   httpProxy = require("http-proxy"),
   HttpProxyRules = require("http-proxy-rules")
@@ -11,15 +11,15 @@ this.s = {}
 
 const configure = (externalSettings, externalRoutes) => {
     var v = new validator()
-    v.addSchema(corsSchema, 'node-gateway-cors-schema')
+    v.addSchema(settingsSchema, 'node-gateway-settings')
 
     let s = externalSettings ? externalSettings : settings
     this.s = {
       settings: s,
       routeRules: routeRules
     }
-    let corsResult = v.validate(s.settings.cors,corsSchema)
-    console.log(corsResult)
+    let r = v.validate(s.settings,settingsSchema)
+    console.log(r)
 }
 exports.configure = configure
 //og4js.configure(this.s.settings.logger.logconfig)

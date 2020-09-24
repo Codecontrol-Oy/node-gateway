@@ -9,6 +9,16 @@
             "port": 6010, 
             "noRouteMatchesErrorMessage": "No route matches the path",
             "generalErrorMessage": "node-gateway general error"
+        }, 
+        "logger": {
+            "logconfig" :{ 
+                    "appenders": [
+                        { 
+                            "type": "console"
+                        }
+                    ]
+            },
+            "loglevel" : "DEBUG"
         }
     }
 }
