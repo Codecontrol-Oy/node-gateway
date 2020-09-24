@@ -16,6 +16,14 @@
 		"generalErrorMessage": {
 			"type": "string",
 			"description": "General error message"
+		},
+		"host": {
+			"type": "string",
+			"description": "Server host"
+		},
+		"serviceName": {
+			"type": "string",
+			"description": "Service name"
 		}
 	}
 }

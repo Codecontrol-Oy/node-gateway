@@ -3,20 +3,28 @@
         "cors": {
             "allowedOrigin": "*",
             "allowCredentials": true,
-            "allowedMethods": "GET, POSTS"
+            "allowedMethods": "GET, POST, DELETE, UPDATE, OPTIONS"
         },
         "server": {
             "port": 6010, 
-            "noRouteMatchesErrorMessage": "No route matches the path",
-            "generalErrorMessage": "node-gateway general error"
+            "noRouteMatchesErrorMessage": "No route matches the given address",
+            "generalErrorMessage": "node-gateway general error",
+            "host": "127.0.0.1",
+            "serviceName": "node-gateway"
         }, 
         "logger": {
-            "logconfig" :{ 
-                    "appenders": [
-                        { 
+            "logconfig" : { 
+                    "appenders": {
+                        "node-gateway": { 
                             "type": "console"
                         }
-                    ]
+                    },
+                    "categories": { 
+                        "default": { 
+                            "appenders": ["node-gateway"], 
+                            "level": "info" 
+                        } 
+                    }
             },
             "loglevel" : "DEBUG"
         }

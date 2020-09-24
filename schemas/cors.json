@@ -25,7 +25,7 @@
 		"allowedMethods": {
 			"type": "string",
 			"description": "Allowed methods for the gateway calls",
-			"pattern": "^(?! )(?:(?:^|, )(?:GET|UPDATE|DELETE|POST)){1,4}$"
+			"pattern": "^(?! )(?:(?:^|, )(?:GET|UPDATE|DELETE|POST|OPTIONS)){1,5}$"
 		},
 		"allowedHeaders": {
 			"type": "string",

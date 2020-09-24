@@ -9,11 +9,7 @@
             "type": "object",
             "properties": {
                 "appenders": { 
-                    "type": "array",
-                    "default": [],
-                    "items": {
-                        "type": "string" 
-                    }
+                    "type": "object"
                 }
               },
 			"description": "Log4js settings"

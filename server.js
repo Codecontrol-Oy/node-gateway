@@ -5,73 +5,87 @@ var validate = require("./tools/schemaValidator").validate
 var http = require("http"),
   httpProxy = require("http-proxy"),
   HttpProxyRules = require("http-proxy-rules")
+const { exception } = require("console")
 
 this.s = {}
+this.logger = {}
 
 const configure = (externalSettings, externalRouteRules) => {
     let s = externalSettings ? externalSettings : settings
     let r = externalRouteRules ? externalRouteRules : routeRules
     this.s = {
-      settings: s,
+      settings: s.settings,
       routeRules: r
     }
     let validationResult = validate(this.s)
-    console.log(validationResult)
+    if(!validationResult.valid) {
+      console.error(`Error on schema validation: ${validationResult.errors}`)
+      throw "Error while parsing settings and routes"
+    }
+    log4js.configure(this.s.settings.logger.logconfig)
+    this.logger = log4js.getLogger("node-gateway")
+    return this.s
 }
 exports.configure = configure
-//og4js.configure(this.s.settings.logger.logconfig)
-//log4js.setGlobalLogLevel(this.s.settings.logger.loglevel)
-//log4js.replaceConsole()
 
-
-
-this.server = http.createServer(function (req, res) {
-configure()
-console.log(this.s)
-var proxyRules = new HttpProxyRules(this.s.routeRules)
-var proxy = httpProxy.createProxy();
-proxy.on("proxyRes", function (proxyRes, req, res) {
-  if(this.s.settings.cors) {
-    if(this.s.this.s.settings.cors.allowedHeaders)
-        res.setHeader("Access-Control-Allow-Headers", this.s.settings.cors.allowedHeaders)
-    if(this.s.this.s.settings.cors.allowedOrigin)
-        res.setHeader("Access-Control-Allow-Origin", this.s.settings.cors.allowedOrigin)
-    if(this.s.this.s.settings.cors.allowCredentials) 
-        res.setHeader("Access-Control-Allow-Credentials", this.s.settings.cors.allowCredentials)
-    if(this.s.this.s.settings.cors.allowedMethods) 
-        res.setHeader( "Access-Control-Allow-Methods",this.s.settings.cors.allowedMethods)
+const server = (config) => http.createServer(function (req, res) {
+  this.logger = log4js.getLogger("node-gateway")
+  let rules = {
+    rules: {}
   }
-})
+  config.routeRules.rules.map(x => rules.rules[x.prefix] = x.target)
+  var proxyRules = new HttpProxyRules(rules)
+  var proxy = httpProxy.createProxy();
 
-proxy.on("proxyReq", function (proxyReq, req, res, options) {
-    if(this.s.settings.server.userHeader) 
-        proxyReq.setHeader(this.s.settings.server.userHeader, this.s.settings.server.userHeaderValue); 
-})
+  if(config.settings.cors) {
+    if(config.settings.cors.allowedHeaders)
+      res.setHeader("Access-Control-Allow-Headers", config.settings.cors.allowedHeaders)
+    if(config.settings.cors.allowedOrigin)
+      res.setHeader("Access-Control-Allow-Origin", config.settings.cors.allowedOrigin)
+    if(config.settings.cors.allowCredentials) 
+      res.setHeader("Access-Control-Allow-Credentials", config.settings.cors.allowCredentials)
+    if(config.settings.cors.allowedMethods) 
+        res.setHeader( "Access-Control-Allow-Methods",config.settings.cors.allowedMethods)
+    if ( req.method === 'OPTIONS' ) {
+        res.writeHead(200)
+        res.end()
+        return
+    }
+  }
 
-proxy.on("error", function (err, req, res) {
-  console.error(err)
-  res.writeHead(500, {
-    "Content-Type": "text/plain",
+  proxy.on("proxyReq", function (proxyReq, req, res, options) {
+    if(config.settings.server.userHeader) 
+      proxyReq.setHeader(config.settings.server.userHeader, config.settings.server.userHeaderValue); 
   })
-  res.end(this.s.settings.server.generalErrorMessage);
-})
+
+  proxy.on("error", function (err, req, res) {
+    this.logger = log4js.getLogger("node-gateway")
+    this.logger.error(err)
+    res.writeHead(500, {
+      "Content-Type": "text/plain",
+    })
+    res.end(config.settings.server.generalErrorMessage)
+  })
+
   var target = proxyRules.match(req);
   if (target) {
     return proxy.web(req, res, {
       target: target,
-    });
+    })
   } else {
-    res.writeHead(400, { "Content-Type": "text/plain" });
-    res.end(this.s.settings.server.noRouteMatchesErrorMessage);
+      this.logger.warn(config.settings.server.noRouteMatchesErrorMessage)
+      res.writeHead(400, { "Content-Type": "text/plain" });
+      res.end(config.settings.server.noRouteMatchesErrorMessage);
   }
 })
 
-//this.server.listen(this.s.settings.server.port);
+exports.server = server
 
-exports.listen = function (callback) {
-  this.server.listen(this.s.settings.server.port);
+exports.listen = (server) => {
+  this.logger.info(`${this.s.settings.server.serviceName} listening at ${this.s.settings.server.port}`)
+  server.listen(this.s.settings.server.port, this.s.settings.server.host);
 }
 
-exports.close = function (callback) {
+exports.close = (callback) => {
   this.server.close(callback);
 }

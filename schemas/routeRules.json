@@ -1,5 +1,5 @@
 {
-	"id": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/settings.json",
+	"id": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/routeRules.json",
 	"title": "node-gateway-routerules",
 	"type": "object",
 	"$schema": "http://json-schema.org/draft-07/schema#",
@@ -7,6 +7,7 @@
 	"properties": {
 		"rules": { 
             "type": "array",
+            "description": "Array of route rules",
             "default": [],
             "items": {
                 "type": "object",

@@ -14,7 +14,6 @@ const validate = (obj) => {
     v.addSchema(loggerSchema, 'node-gateway-logger')
     v.addSchema(configSchema, 'node-gateway-config')
     v.addSchema(routeRules, 'node-gateway-routerules')
-    console.log(obj)
     return v.validate(obj,configSchema)
 }
 

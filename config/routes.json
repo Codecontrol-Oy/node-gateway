@@ -1,16 +1,16 @@
 {
     "rules": [
         {
-            "prefix": "/users",
-            "target": "https://userApi/users"
+            "prefix": ".*/users",
+            "target": "https://userApi/users:4992"
         },
         {
-            "prefix": "/organization",
-            "target": "https://organizationApi/organization"
+            "prefix": ".*/organization",
+            "target": "https://organizationApi/organization:4991"
         },
         {
-            "prefix": "/organization/users",
-            "target": "https://organizationApi/organization/users"
+            "prefix": ".*/organization/users",
+            "target": "https://organizationApi/organization/users:4000"
         }
     ]
 }
