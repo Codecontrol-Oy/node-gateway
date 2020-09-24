@@ -19,7 +19,7 @@ Run npm test
 
 ## Settings
 **Logger**
-users Log4js for logging, see parameters from log4js repository
+node-gateway uses Log4js for logging, see parameters from log4js (https://www.npmjs.com/package/log4js)
 
 **Server**
 There are two different settings file. 
