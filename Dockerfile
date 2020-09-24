@@ -18,4 +18,4 @@ COPY . /usr/src/node-gateway/
 EXPOSE 6010
 
 #Run
-CMD [ "node", "index.js" ]
+CMD [ "node", "./examples/exampleGateway.js" ]
