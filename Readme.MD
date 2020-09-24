@@ -103,9 +103,9 @@ var server = g.server(config)
 g.listen(server)
 ```
 
-To test your routes, just use the localhost:yourport/yourprefix, and see if it directs the call to your target
-```
+To test your routes, just use the localhost:yourport/yourprefix, and see if it directs the call to your target.
 the following route on the example server settings will direct on the serverside, to https://userApi/users:4992 with the url localhost:6010/users
+```
 {
 "prefix": ".*/users",
 "target": "https://userApi/users:4992"
