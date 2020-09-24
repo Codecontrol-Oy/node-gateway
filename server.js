@@ -53,11 +53,6 @@ const server = (config) => http.createServer(function (req, res) {
     }
   }
 
-  proxy.on("proxyReq", function (proxyReq, req, res, options) {
-    if(config.settings.server.userHeader) 
-      proxyReq.setHeader(config.settings.server.userHeader, config.settings.server.userHeaderValue)
-  })
-
   proxy.on("error", function (err, req, res) {
     this.logger = log4js.getLogger("node-gateway")
     this.logger.error(err)

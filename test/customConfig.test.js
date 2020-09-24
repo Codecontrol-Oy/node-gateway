@@ -11,7 +11,58 @@ sinon.stub(log4js, "getLogger").returns({
     error: function() {}
 })
 var s = require('../server.js')
-var config = s.configure()
+const settings = {
+  settings : {
+      cors: {
+          allowedOrigin: "*",
+          allowCredentials: true,
+          allowedMethods: "GET, POST, DELETE, UPDATE, OPTIONS",
+          allowedHeaders: "*"
+      },
+      server: {
+          port: 6010, 
+          noRouteMatchesErrorMessage: "No route matches the given address",
+          generalErrorMessage: "node-gateway general error",
+          host: "127.0.0.1",
+          serviceName: "node-gateway"
+      }, 
+      logger: {
+          logconfig : { 
+                  appenders: {
+                      "node-gateway": { 
+                          type: "console"
+                      }
+                  },
+                  categories: { 
+                      default: { 
+                          appenders: ["node-gateway"], 
+                          level: "info" 
+                      } 
+                  }
+          },
+          loglevel : "DEBUG"
+      }
+  }
+}
+
+const routes = {
+  rules: [
+      {
+          prefix: ".*/users",
+          target: "https://userApi/users:4992"
+      },
+      {
+          prefix: ".*/organization",
+          target: "https://organizationApi/organization:4991"
+      },
+      {
+          prefix: ".*/organization/users",
+          target: "https://organizationApi/organization/users:4000"
+      }
+  ]
+}
+
+var config = s.configure(settings, routes)
 var server = s.server(config)
 
 
@@ -24,7 +75,7 @@ describe('node-gateway', function () {
     s.close(server)
   })
 
-  describe('Proxy basic tests', function () {
+  describe('Custom configs enabled', function () {
     it('Should return 400 on root url', function (done) {
         chai.request(gatewayUrl)
         .get('/')

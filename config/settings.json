@@ -3,7 +3,8 @@
         "cors": {
             "allowedOrigin": "*",
             "allowCredentials": true,
-            "allowedMethods": "GET, POST, DELETE, UPDATE, OPTIONS"
+            "allowedMethods": "GET, POST, DELETE, UPDATE, OPTIONS",
+            "allowedHeaders": "*"
         },
         "server": {
             "port": 6010, 
