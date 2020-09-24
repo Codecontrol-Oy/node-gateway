@@ -85,7 +85,9 @@ example of the routes.json (under the config directory)
 in your app file
 ```
 var g = require('../index').gateway
-var config = g.configure() //You can overwrite the settings with your own files if you wish, by using settings and routes params to configure method. By default it uses the files under the config directory
+//You can overwrite the settings with your own files if you wish, by using settings and routes params to configure method. 
+//By default it uses the files under the config directory (see the npm version example under this one)
+var config = g.configure() 
 var server = g.server(config)
 g.listen(server)
 ```
