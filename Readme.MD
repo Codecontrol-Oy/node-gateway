@@ -111,4 +111,3 @@ the following route on the example server settings will direct on the serverside
 "target": "https://userApi/users:4992"
 }
 ```
-}
