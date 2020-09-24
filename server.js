@@ -1,6 +1,4 @@
 var log4js = require("log4js")
-var settings = require("./config/settings.json")
-var routeRules = require("./config/routes.json")
 var validate = require("./tools/schemaValidator").validate
 var http = require("http"),
   httpProxy = require("http-proxy"),
@@ -11,8 +9,8 @@ this.s = {}
 this.logger = {}
 
 const configure = (externalSettings, externalRouteRules) => {
-    let s = externalSettings ? externalSettings : settings
-    let r = externalRouteRules ? externalRouteRules : routeRules
+    let s = externalSettings ? externalSettings : require("./config/settings.json")
+    let r = externalRouteRules ? externalRouteRules : require("./config/routes.json")
     this.s = {
       settings: s.settings,
       routeRules: r
@@ -34,8 +32,10 @@ const server = (config) => http.createServer(function (req, res) {
     rules: {}
   }
   config.routeRules.rules.map(x => rules.rules[x.prefix] = x.target)
+  rules.rules['.*/error'] = "http://999.999.999.999:999" //For error unit testing
+
   var proxyRules = new HttpProxyRules(rules)
-  var proxy = httpProxy.createProxy();
+  var proxy = httpProxy.createProxy()
 
   if(config.settings.cors) {
     if(config.settings.cors.allowedHeaders)
@@ -55,7 +55,7 @@ const server = (config) => http.createServer(function (req, res) {
 
   proxy.on("proxyReq", function (proxyReq, req, res, options) {
     if(config.settings.server.userHeader) 
-      proxyReq.setHeader(config.settings.server.userHeader, config.settings.server.userHeaderValue); 
+      proxyReq.setHeader(config.settings.server.userHeader, config.settings.server.userHeaderValue)
   })
 
   proxy.on("error", function (err, req, res) {
@@ -74,18 +74,18 @@ const server = (config) => http.createServer(function (req, res) {
     })
   } else {
       this.logger.warn(config.settings.server.noRouteMatchesErrorMessage)
-      res.writeHead(400, { "Content-Type": "text/plain" });
-      res.end(config.settings.server.noRouteMatchesErrorMessage);
+      res.writeHead(400, { "Content-Type": "text/plain" })
+      res.end(config.settings.server.noRouteMatchesErrorMessage)
   }
 })
 
 exports.server = server
 
-exports.listen = (server) => {
+exports.listen = (server, cb) => {
   this.logger.info(`${this.s.settings.server.serviceName} listening at ${this.s.settings.server.port}`)
-  server.listen(this.s.settings.server.port, this.s.settings.server.host);
+  server.listen(this.s.settings.server.port, this.s.settings.server.host, cb)
 }
 
-exports.close = (callback) => {
-  this.server.close(callback);
+exports.close = (server, callback) => {
+  server.close(callback)
 }

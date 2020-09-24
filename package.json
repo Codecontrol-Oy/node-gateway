@@ -1,13 +1,23 @@
 {
-  "name": "node-gateway",
+  "name": "@codecontrol/node-gateway",
   "version": "1.0.0",
-  "description": "Gateway proxy",
+  "description": "A Simple NodeJS based proxy gateway",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Codecontrol-Oy/node-gateway"
+  },
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "npm run clean:report && jest",
+    "test:watch": "npm run clean:report && jest --watch",
+    "test:ci": "npm run clean:report && jest --coverage",
+    "clean": "rimraf ./build",
+    "clean:report": "rimraf ./report"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/jasmine.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jasmine.js"
+    ],
     "coverageDirectory": "report",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
@@ -27,7 +37,7 @@
     "jest": "^26.4.2",
     "nock": "^13.0.4",
     "rimraf": "^3.0.2",
-    "supertest": "^4.0.2"
+    "sinon": "^9.0.3"
   },
   "dependencies": {
     "http": "0.0.1-security",
