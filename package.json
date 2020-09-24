@@ -1,6 +1,6 @@
 {
   "name": "@codecontrol/node-gateway",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "description": "A Simple NodeJS based proxy gateway",
   "repository": {
     "type": "git",

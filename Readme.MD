@@ -95,7 +95,7 @@ g.listen(server)
 or if you use the npm package
 
 ```
-var g = require('../index').gateway
+var g = require('@codecontrol/node-gateway')
 var settings = require('./yourSettingsFile.json)
 var routes = require('./yourRoutesFile.json)
 var config = g.configure(settings, routes)
