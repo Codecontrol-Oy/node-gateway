@@ -4,7 +4,7 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.2.92   | :green_check_mark: |
+| 1.2.92   | :heavy_check_mark: |
 
 ## Reporting a Vulnerability
 
