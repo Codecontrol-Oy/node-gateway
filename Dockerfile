@@ -1,12 +1,12 @@
 
-FROM node:argon
+FROM node:alpine
 
 # Create app directory
 RUN mkdir -p /usr/src/node-gateway
 WORKDIR /usr/src/node-gateway
 
 # Install app dependencies
-COPY package.json /usr/src/controlit-api-gateway/
+COPY package.json /usr/src/node-gateway/
 
 #Install dependencies
 RUN npm install
