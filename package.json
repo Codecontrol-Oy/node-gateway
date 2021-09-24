@@ -42,9 +42,12 @@
     "chai-http": "^4.3.0",
     "jasmine-reporters": "^2.3.2",
     "jest": "^26.4.2",
+    "jest-websocket-mock": "^2.2.1",
+    "mock-socket": "^9.0.3",
     "nock": "^13.0.4",
     "rimraf": "^3.0.2",
-    "sinon": "^9.0.3"
+    "sinon": "^9.0.3",
+    "socket.io-client": "^4.2.0"
   },
   "dependencies": {
     "http": "0.0.1-security",

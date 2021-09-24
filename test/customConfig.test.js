@@ -22,6 +22,7 @@ const settings = {
       server: {
           port: 6010, 
           noRouteMatchesErrorMessage: "No route matches the given address",
+          noWebsocketRouteMatchesErrorMessage: "No websocket route matches the given address",
           generalErrorMessage: "node-gateway general error",
           host: "127.0.0.1",
           serviceName: "node-gateway"
@@ -49,16 +50,24 @@ const routes = {
   rules: [
       {
           prefix: ".*/users",
-          target: "https://userApi/users:4992"
+          target: "https://userApi/users:4992",
+          type: "http"
       },
       {
           prefix: ".*/organization",
-          target: "https://organizationApi/organization:4991"
+          target: "https://organizationApi/organization:4991",
+          type: "http"
       },
       {
           prefix: ".*/organization/users",
-          target: "https://organizationApi/organization/users:4000"
-      }
+          target: "https://organizationApi/organization/users:4000",
+          type: "http"
+      },
+      {
+        prefix: ".*/notification",
+        target: "wss://notificationApi:4000",
+        type: "websocket"
+    }
   ]
 }
 

@@ -11,6 +11,10 @@
         {
             "prefix": ".*/organization/users",
             "target": "https://organizationApi/organization/users:4000"
+        },
+        {
+            "prefix": ".*/notifications",
+            "target": "ws://localhost:40510"
         }
     ]
 }
