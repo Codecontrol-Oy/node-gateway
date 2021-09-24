@@ -12,54 +12,64 @@ sinon.stub(log4js, "getLogger").returns({
 })
 var s = require('../server.js')
 const settings = {
-    settings: {
-        cors: {
-            allowedOrigin: "*",
-            allowCredentials: true,
-            allowedMethods: "GET, POST, DELETE, UPDATE, OPTIONS",
-            allowedHeaders: "*"
-        },
-        server: {
-            port: 6010,
-            noRouteMatchesErrorMessage: "No route matches the given address",
-            generalErrorMessage: "node-gateway general error",
-            host: "127.0.0.1",
-            serviceName: "node-gateway"
-        },
-        logger: {
-            logconfig: {
-                appenders: {
-                    "node-gateway": {
-                        type: "console"
-                    }
-                },
-                categories: {
-                    default: {
-                        appenders: ["node-gateway"],
-                        level: "info"
-                    }
-                }
-            },
-            loglevel: "DEBUG"
-        }
-    }
+  settings : {
+      cors: {
+          allowedOrigin: "*",
+          allowCredentials: true,
+          allowedMethods: "GET, POST, DELETE, UPDATE, OPTIONS",
+          allowedHeaders: "*"
+      },
+      server: {
+          port: 6010, 
+          noRouteMatchesErrorMessage: "No route matches the given address",
+          noWebsocketRouteMatchesErrorMessage: "No websocket route matches the given address",
+          generalErrorMessage: "node-gateway general error",
+          host: "127.0.0.1",
+          serviceName: "node-gateway"
+      }, 
+      logger: {
+          logconfig : { 
+                  appenders: {
+                      "node-gateway": { 
+                          type: "console"
+                      }
+                  },
+                  categories: { 
+                      default: { 
+                          appenders: ["node-gateway"], 
+                          level: "info" 
+                      } 
+                  }
+          },
+          loglevel : "DEBUG"
+      }
+  }
 }
 
 const routes = {
-    rules: [
-        {
-            prefix: ".*/users",
-            target: "https://userApi/users:4992"
-        },
-        {
-            prefix: ".*/organization",
-            target: "https://organizationApi/organization:4991"
-        },
-        {
-            prefix: ".*/organization/users",
-            target: "https://organizationApi/organization/users:4000"
-        }
-    ]
+  rules: [
+      {
+          prefix: ".*/users",
+          target: "https://userApi/users:4992",
+          type: "http"
+      },
+      {
+          prefix: ".*/organization",
+          target: "https://organizationApi/organization:4991",
+          type: "http"
+      },
+      {
+          prefix: ".*/organization/users",
+          target: "https://organizationApi/organization/users:4000",
+          type: "http"
+      },
+      {
+        prefix: ".*/notification",
+        target: "wss://notificationApi:4000",
+        type: "websocket"
+    }
+  ]
+
 }
 
 var config = s.configure(settings, routes)
