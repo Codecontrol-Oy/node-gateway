@@ -14,7 +14,7 @@ const validate = (obj) => {
     v.addSchema(loggerSchema, 'node-gateway-logger')
     v.addSchema(configSchema, 'node-gateway-config')
     v.addSchema(routeRules, 'node-gateway-routerules')
-    return v.validate(obj,configSchema)
+    return v.validate(obj, configSchema)
 }
 
 exports.validate = validate

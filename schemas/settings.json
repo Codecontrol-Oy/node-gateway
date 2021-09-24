@@ -3,10 +3,20 @@
 	"title": "node-gateway-settings",
 	"type": "object",
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"required": ["cors", "server", "logger"],
+	"required": [
+		"cors",
+		"server",
+		"logger"
+	],
 	"properties": {
-		"cors": {"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/cors.json"},
-        "server": {"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/server.json"},
-        "logger": {"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/logger.json"}
+		"cors": {
+			"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/cors.json"
+		},
+		"server": {
+			"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/server.json"
+		},
+		"logger": {
+			"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/logger.json"
+		}
 	}
 }
