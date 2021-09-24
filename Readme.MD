@@ -85,7 +85,12 @@ example of the routes.json (under the config directory)
         {
             "prefix": ".*/organization/users",
             "target": "https://organizationApi/organization/users:4000"
-        }
+        },
+        {
+            "prefix": ".*/notifications",
+            "target": "wss://notificationAPI:4000"
+        },
+        
     ]
 }
 ```
@@ -99,6 +104,7 @@ var g = require('./index') (if you are on the root folder of this project)
 //By default it uses the files under the config directory (see the npm version example under this one)
 var config = g.configure() 
 var server = g.server(config)
+server = g.configureWebsockets(server,config) //Enable websockets, optional
 g.listen(server)
 ```
 
@@ -110,6 +116,7 @@ var settings = require('./yourSettingsFile.json)
 var routes = require('./yourRoutesFile.json)
 var config = g.configure(settings, routes)
 var server = g.server(config)
+server = g.configureWebsockets(server,config) //Enable websockets, optional
 g.listen(server)
 ```
 

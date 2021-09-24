@@ -8,6 +8,55 @@ const { exception } = require("console")
 this.s = {}
 this.logger = {}
 
+const createProxyRules = (config) => { 
+  let rules = {
+    rules: {}
+  }
+  config.routeRules.rules.map(x => rules.rules[x.prefix] = x.target)
+  rules.rules['.*/error'] = "http://999.999.999.999:999"
+  return new HttpProxyRules(rules)
+}
+
+const configureWebsockets = (server, config) => {
+  var proxyRules = createProxyRules(config)
+  var proxy = httpProxy.createProxy()
+  
+  server.on('upgrade', function (req, socket, head) {
+    this.logger = log4js.getLogger("node-gateway")
+
+    proxy.on("error", function (err, req, res) {
+      this.logger = log4js.getLogger("node-gateway")
+      this.logger.error(err)
+      socket.write('HTTP/1.1 500 Internal server error\r\n' +
+                 'Upgrade: WebSocket\r\n' +
+                 'Connection: Upgrade\r\n' +
+                 `Message: ${config.settings.server.generalErrorMessage}\r\n` +
+                 '\r\n');
+                 socket.destroy();
+    })
+    var target = proxyRules.match(req);
+    if (target) {
+      return proxy.ws(req, socket, head,{
+        target: target,
+      })
+    } else {
+        this.logger.warn(config.settings.server.noWebsocketRouteMatchesErrorMessage)
+        socket.write('HTTP/1.1 400 Bad request\r\n' +
+                 'Upgrade: WebSocket\r\n' +
+                 'Connection: Upgrade\r\n' +
+                 `Message: ${config.settings.server.noWebsocketRouteMatchesErrorMessage}\r\n` +
+                 '\r\n');
+                 socket.destroy();
+    }
+  })
+
+  this.logger.info("Websockets enabled")
+  return server
+}
+
+exports.configureWebsockets = configureWebsockets
+
+
 const configure = (externalSettings, externalRouteRules) => {
   let s = externalSettings ? externalSettings : require("./config/settings.json")
   let r = externalRouteRules ? externalRouteRules : require("./config/routes.json")
@@ -28,18 +77,7 @@ exports.configure = configure
 
 const server = (config) => http.createServer(function (req, res) {
   this.logger = log4js.getLogger("node-gateway")
-  let rules = {
-    rules: {}
-  }
-  config.routeRules.rules.map(x => rules.rules[x.prefix] = x.target)
-  rules.rules['.*/error'] = "http://999.999.999.999:999" //For error unit testing
-
-  // Add default target if given
-  if (config.routeRules.default) {
-    rules.default = config.routeRules.default
-  }
-
-  var proxyRules = new HttpProxyRules(rules)
+  var proxyRules = createProxyRules(config)
   var proxy = httpProxy.createProxy()
 
   if (config.settings.cors) {
