@@ -23,9 +23,16 @@ const configureWebsockets = (server, config) => {
   
   server.on('upgrade', function (req, socket, head) {
     this.logger = log4js.getLogger("node-gateway")
+
     proxy.on("error", function (err, req, res) {
+      this.logger = log4js.getLogger("node-gateway")
       this.logger.error(err)
-      socket.end()
+      socket.write('HTTP/1.1 500 Internal server error\r\n' +
+                 'Upgrade: WebSocket\r\n' +
+                 'Connection: Upgrade\r\n' +
+                 `Message: ${config.settings.server.generalErrorMessage}\r\n` +
+                 '\r\n');
+                 socket.destroy();
     })
     var target = proxyRules.match(req);
     if (target) {
@@ -33,8 +40,13 @@ const configureWebsockets = (server, config) => {
         target: target,
       })
     } else {
-        this.logger.warn(config.settings.server.noRouteMatchesErrorMessage)
-        socket.end()
+        this.logger.warn(config.settings.server.noWebsocketRouteMatchesErrorMessage)
+        socket.write('HTTP/1.1 400 Bad request\r\n' +
+                 'Upgrade: WebSocket\r\n' +
+                 'Connection: Upgrade\r\n' +
+                 `Message: ${config.settings.server.noWebsocketRouteMatchesErrorMessage}\r\n` +
+                 '\r\n');
+                 socket.destroy();
     }
   })
 
