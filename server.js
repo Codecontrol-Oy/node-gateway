@@ -17,9 +17,8 @@ const createProxyRules = (config) => {
   return new HttpProxyRules(rules)
 }
 
-const returnWebSocketInternalServerError = (err, socket, config) => {
-  logger = log4js.getLogger("node-gateway")
-  this.logger.error(err)
+const returnWebSocketInternalServerError = (err, socket, config, logger) => {
+  logger.error(err)
   socket.write('HTTP/1.1 500 Internal server error\r\n' +
                'Upgrade: WebSocket\r\n' +
                'Connection: Upgrade\r\n' +
