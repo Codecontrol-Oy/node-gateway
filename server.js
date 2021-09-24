@@ -23,7 +23,7 @@ const returnWebSocketInternalServerError = (err, socket, config, logger) => {
                'Upgrade: WebSocket\r\n' +
                'Connection: Upgrade\r\n' +
                `Message: ${config.settings.server.generalErrorMessage}\r\n` +
-                '\r\n');
+               '\r\n');
   socket.destroy();
 }
 
