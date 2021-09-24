@@ -1,17 +1,22 @@
 {
-	"id": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/routeRules.json",
-	"title": "node-gateway-routerules",
-	"type": "object",
-	"$schema": "http://json-schema.org/draft-07/schema#",
-	"required": ["rules"],
-	"properties": {
-		"rules": { 
+    "id": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/routeRules.json",
+    "title": "node-gateway-routerules",
+    "type": "object",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "required": [
+        "rules"
+    ],
+    "properties": {
+        "rules": {
             "type": "array",
             "description": "Array of route rules",
             "default": [],
             "items": {
                 "type": "object",
-                "required": ["prefix", "target"],
+                "required": [
+                    "prefix",
+                    "target"
+                ],
                 "properties": {
                     "prefix": {
                         "type": "string",
@@ -23,6 +28,10 @@
                     }
                 }
             }
+        },
+        "default": {
+            "type": "string",
+            "description": "(optional) if no rules matched, translate url path to specified default"
         }
-	}
+    }
 }

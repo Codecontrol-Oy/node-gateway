@@ -2,10 +2,17 @@
 	"id": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/config.json",
 	"title": "node-gateway-config",
 	"type": "object",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "required": ["settings", "routeRules"],
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"required": [
+		"settings",
+		"routeRules"
+	],
 	"properties": {
-		"settings": {"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/settings.json"},
-		"routeRules": {"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/routeRules.json"}
+		"settings": {
+			"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/settings.json"
+		},
+		"routeRules": {
+			"$ref": "https://raw.githubusercontent.com/Codecontrol-Oy/node-gateway/master/schemas/routeRules.json"
+		}
 	}
 }
