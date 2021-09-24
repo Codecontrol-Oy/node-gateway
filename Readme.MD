@@ -47,6 +47,7 @@ example settings.json (under the config directory)
         "server": {
             "port": 6010, 
             "noRouteMatchesErrorMessage": "No route matches the given address",
+            "noWebsocketRouteMatchesErrorMessage": "No websocket route matches the given address",
             "generalErrorMessage": "node-gateway general error",
             "host": "127.0.0.1",
             "serviceName": "node-gateway"
