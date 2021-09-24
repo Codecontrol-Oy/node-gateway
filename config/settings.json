@@ -1,5 +1,5 @@
 {
-    "settings" : {
+    "settings": {
         "cors": {
             "allowedOrigin": "*",
             "allowCredentials": true,
@@ -7,28 +7,30 @@
             "allowedHeaders": "*"
         },
         "server": {
-            "port": 6010, 
+            "port": 6010,
             "noRouteMatchesErrorMessage": "No route matches the given address",
             "noWebsocketRouteMatchesErrorMessage": "No websocket route matches the given address",
             "generalErrorMessage": "node-gateway general error",
             "host": "127.0.0.1",
             "serviceName": "node-gateway"
-        }, 
+        },
         "logger": {
-            "logconfig" : { 
-                    "appenders": {
-                        "node-gateway": { 
-                            "type": "console"
-                        }
-                    },
-                    "categories": { 
-                        "default": { 
-                            "appenders": ["node-gateway"], 
-                            "level": "info" 
-                        } 
+            "logconfig": {
+                "appenders": {
+                    "node-gateway": {
+                        "type": "console"
                     }
+                },
+                "categories": {
+                    "default": {
+                        "appenders": [
+                            "node-gateway"
+                        ],
+                        "level": "info"
+                    }
+                }
             },
-            "loglevel" : "DEBUG"
+            "loglevel": "DEBUG"
         }
     }
 }

@@ -6,7 +6,7 @@
     "required": ["port", "noRouteMatchesErrorMessage", "noWebsocketRouteMatchesErrorMessage", "generalErrorMessage"],
 	"properties": {
 		"port": {
-            "type": "integer",
+			"type": "integer",
 			"description": "Server Listen port"
 		},
 		"noRouteMatchesErrorMessage": {
