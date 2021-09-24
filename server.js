@@ -17,45 +17,49 @@ const createProxyRules = (config) => {
   return new HttpProxyRules(rules)
 }
 
+const returnWebSocketInternalServerError = (err, socket, config) => {
+  logger = log4js.getLogger("node-gateway")
+  this.logger.error(err)
+  socket.write('HTTP/1.1 500 Internal server error\r\n' +
+               'Upgrade: WebSocket\r\n' +
+               'Connection: Upgrade\r\n' +
+               `Message: ${config.settings.server.generalErrorMessage}\r\n` +
+                '\r\n');
+  socket.destroy();
+}
+
+const returnWebSocketBadRequest = (socket, config, logger) => {
+  logger.warn(config.settings.server.noWebsocketRouteMatchesErrorMessage)
+  socket.write('HTTP/1.1 400 Bad request\r\n' +
+               'Upgrade: WebSocket\r\n' +
+               'Connection: Upgrade\r\n' +
+               `Message: ${config.settings.server.noWebsocketRouteMatchesErrorMessage}\r\n` +
+               '\r\n');
+  socket.destroy();
+}
+
 const configureWebsockets = (server, config) => {
   var proxyRules = createProxyRules(config)
   var proxy = httpProxy.createProxy()
   
   server.on('upgrade', function (req, socket, head) {
     this.logger = log4js.getLogger("node-gateway")
+    proxy.on("error", (err, req, res) => returnWebSocketInternalServerError(err, socket, config, this.logger))
 
-    proxy.on("error", function (err, req, res) {
-      this.logger = log4js.getLogger("node-gateway")
-      this.logger.error(err)
-      socket.write('HTTP/1.1 500 Internal server error\r\n' +
-                 'Upgrade: WebSocket\r\n' +
-                 'Connection: Upgrade\r\n' +
-                 `Message: ${config.settings.server.generalErrorMessage}\r\n` +
-                 '\r\n');
-                 socket.destroy();
-    })
+    this.logger = log4js.getLogger("node-gateway")
     var target = proxyRules.match(req);
     if (target) {
       return proxy.ws(req, socket, head,{
         target: target,
       })
-    } else {
-        this.logger.warn(config.settings.server.noWebsocketRouteMatchesErrorMessage)
-        socket.write('HTTP/1.1 400 Bad request\r\n' +
-                 'Upgrade: WebSocket\r\n' +
-                 'Connection: Upgrade\r\n' +
-                 `Message: ${config.settings.server.noWebsocketRouteMatchesErrorMessage}\r\n` +
-                 '\r\n');
-                 socket.destroy();
-    }
+    } else
+        returnWebSocketBadRequest(socket, config, this.logger)
   })
 
   this.logger.info("Websockets enabled")
   return server
 }
-
 exports.configureWebsockets = configureWebsockets
-
 
 const configure = (externalSettings, externalRouteRules) => {
   let s = externalSettings ? externalSettings : require("./config/settings.json")
@@ -116,7 +120,6 @@ const server = (config) => http.createServer(function (req, res) {
     res.end(config.settings.server.noRouteMatchesErrorMessage)
   }
 })
-
 exports.server = server
 
 exports.listen = (server, cb) => {
