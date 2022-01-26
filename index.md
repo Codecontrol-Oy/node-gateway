@@ -1,37 +1,131 @@
-## Welcome to GitHub Pages
+# node-gateway
 
-You can use the [editor on GitHub](https://github.com/Codecontrol-Oy/node-gateway/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+A Simple NodeJS based Api Gateway
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+node-gateway is used to map your api calls through a single proxy. 
+Instead creating different subdomains for your api's, you can gather them to a single endpoint with cors rules on top.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+ex.
+```
+proxy.mydomain.com/users => https://userapi/users:2500 (internal api on the server)
+proxy.mydomain.com/projects => https://projectapi/projects:2501 (internal api on the server)
+proxy.mydomain.com/billing => https://commercial.api.com (external api)
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+## Installation
+1. clone repository
+2. run npm install
+3. run the exampleGateway.js under the examples folder (node exampleGateway.js)
 
-### Jekyll Themes
+or
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Codecontrol-Oy/node-gateway/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+use the npm package, @codecontrol/node-gateway
+```
+npm i @codecontrol/node-gateway
+````
 
-### Support or Contact
+## Tests
+Run npm test
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Settings
+**Logger**
+node-gateway uses Log4js for logging, see parameters from log4js (https://www.npmjs.com/package/log4js)
+
+**Server**
+There are two different settings file. 
+One for the actual configs, and another one for proxy routes
+
+example settings.json (under the config directory)
+```
+{
+    "settings" : {
+        "cors": {
+            "allowedOrigin": "*",
+            "allowCredentials": true,
+            "allowedMethods": "GET, POST, DELETE, UPDATE, OPTIONS"
+        },
+        "server": {
+            "port": 6010, 
+            "noRouteMatchesErrorMessage": "No route matches the given address",
+            "noWebsocketRouteMatchesErrorMessage": "No websocket route matches the given address",
+            "generalErrorMessage": "node-gateway general error",
+            "host": "127.0.0.1",
+            "serviceName": "node-gateway"
+        }, 
+        "logger": {
+            "logconfig" : { 
+                    "appenders": {
+                        "node-gateway": { 
+                            "type": "console"
+                        }
+                    },
+                    "categories": { 
+                        "default": { 
+                            "appenders": ["node-gateway"], 
+                            "level": "info" 
+                        } 
+                    }
+            },
+            "loglevel" : "DEBUG"
+        }
+    }
+```
+
+example of the routes.json (under the config directory)
+```
+{
+    "rules": [
+        {
+            "prefix": ".*/users",
+            "target": "https://userApi/users:4992"
+        },
+        {
+            "prefix": ".*/organization",
+            "target": "https://organizationApi/organization:4991"
+        },
+        {
+            "prefix": ".*/organization/users",
+            "target": "https://organizationApi/organization/users:4000"
+        },
+        {
+            "prefix": ".*/notifications",
+            "target": "wss://notificationAPI:4000"
+        },
+        
+    ]
+}
+```
+
+## Usage
+
+in your app file
+```
+var g = require('./index') (if you are on the root folder of this project)
+//You can overwrite the settings with your own files if you wish, by using settings and routes params to configure method. 
+//By default it uses the files under the config directory (see the npm version example under this one)
+var config = g.configure() 
+var server = g.server(config)
+server = g.configureWebsockets(server,config) //Enable websockets, optional
+g.listen(server)
+```
+
+or if you use the npm package
+
+```
+var g = require('@codecontrol/node-gateway')
+var settings = require('./yourSettingsFile.json)
+var routes = require('./yourRoutesFile.json)
+var config = g.configure(settings, routes)
+var server = g.server(config)
+server = g.configureWebsockets(server,config) //Enable websockets, optional
+g.listen(server)
+```
+
+To test your routes, just use the localhost:yourport/yourprefix, and see if it directs the call to your target.
+the following route on the example server settings will direct on the serverside, to https://userApi/users:4992 with the url localhost:6010/users
+```
+{
+"prefix": ".*/users",
+"target": "https://userApi/users:4992"
+}
+```
