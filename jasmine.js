@@ -6,4 +6,4 @@ jasmine.getEnv().addReporter(
     savePath: "report/",
     filePrefix: 'test-results'
   })
-);
+)
