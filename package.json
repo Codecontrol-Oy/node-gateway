@@ -22,11 +22,7 @@
     "clean:report": "rimraf ./report"
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/jasmine.js"
-    ],
     "coverageDirectory": "report",
-    "testRunner": "jasmine2",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/containers/",
@@ -42,7 +38,6 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "jasmine": "^4.0.2",
-    "jasmine-reporters": "^2.5.0",
     "jest": "^27.4.7",
     "nock": "^13.0.4",
     "rimraf": "^3.0.2",
