@@ -1,6 +1,6 @@
 {
   "name": "@codecontrol/node-gateway",
-  "version": "1.3.4",
+  "version": "1.3.7",
   "description": "A Simple NodeJS based proxy gateway",
   "keywords": [
     "gateway",
@@ -22,9 +22,6 @@
     "clean:report": "rimraf ./report"
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/jasmine.js"
-    ],
     "coverageDirectory": "report",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
@@ -40,8 +37,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "jasmine-reporters": "^2.3.2",
-    "jest": "^26.4.2",
+    "jasmine": "^4.0.2",
+    "jest": "^27.4.7",
     "nock": "^13.0.4",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.3",
@@ -52,7 +49,7 @@
     "http": "0.0.1-security",
     "http-proxy": "^1.18.1",
     "http-proxy-rules": "^1.1.3",
-    "jsonschema": "^1.2.6",
+    "jsonschema": "^1.4.0",
     "log4js": "^6.3.0"
   }
 }

@@ -27,7 +27,8 @@ receiving such patches depend on the following table
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.2.x   | :heavy_check_mark: |
+| 1.2.x   | :x: |
+| 1.3.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
