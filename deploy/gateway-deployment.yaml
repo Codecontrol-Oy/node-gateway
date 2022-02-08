@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-gateway
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: node-gateway
+  template:
+    metadata:
+      labels:
+        app: node-gateway
+    spec:
+      containers:
+      - image: codecontrol/node-gateway:dev
+        name: node-gateway
+        ports:
+        - containerPort: 6010
