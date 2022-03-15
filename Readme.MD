@@ -62,11 +62,10 @@ example settings.json (under the config directory)
                     "categories": { 
                         "default": { 
                             "appenders": ["node-gateway"], 
-                            "level": "info" 
+                            "level": "ERROR" 
                         } 
                     }
-            },
-            "loglevel" : "DEBUG"
+            }
         }
     }
 ```
