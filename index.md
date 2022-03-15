@@ -33,7 +33,7 @@ node-gateway uses Log4js for logging, see parameters from log4js (https://www.np
 
 **Server**
 There are two different settings file. 
-One for the actual configs, and another one for proxy routes
+One for the actual configs, and another one for proxy routes.
 
 example settings.json (under the config directory)
 ```
@@ -62,11 +62,10 @@ example settings.json (under the config directory)
                     "categories": { 
                         "default": { 
                             "appenders": ["node-gateway"], 
-                            "level": "info" 
+                            "level": "ERROR" 
                         } 
                     }
-            },
-            "loglevel" : "DEBUG"
+            }
         }
     }
 ```
