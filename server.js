@@ -44,8 +44,6 @@ const configureWebsockets = (server, config) => {
   server.on('upgrade', function (req, socket, head) {
     this.logger = log4js.getLogger("node-gateway")
     proxy.on("error", (err, req, res) => returnWebSocketInternalServerError(err, socket, config, this.logger))
-
-    this.logger = log4js.getLogger("node-gateway")
     var target = proxyRules.match(req);
     if (target) {
       return proxy.ws(req, socket, head,{
