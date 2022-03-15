@@ -26,11 +26,10 @@
                         "appenders": [
                             "node-gateway"
                         ],
-                        "level": "info"
+                        "level": "ALL"
                     }
                 }
-            },
-            "loglevel": "DEBUG"
+            }
         }
     }
 }
