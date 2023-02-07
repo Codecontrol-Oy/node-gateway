@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - image: codecontrol/node-gateway:dev
-        name: node-gatewaygit pu
+        name: node-gateway
         ports:
         - containerPort: 6010
